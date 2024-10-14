@@ -11,6 +11,7 @@ import java.util.concurrent.TimeUnit;
 public class VregistroSteps {
     
     static WebDriver driver;
+    static String idusuario;
 
     public static void abrirpg(String url) {
         System.setProperty("webdriver.chrome.driver","drivers/chromedriver1.exe");
@@ -40,47 +41,62 @@ public class VregistroSteps {
 
     }
 
-    public static void registrousuario(String arg0, String arg1, String arg2, String arg3, String arg4, String arg5, String arg6) {
+    public static void registrousuario(String arg0, String arg1, String arg2, String arg3, String arg4, String arg5) {
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
         driver.findElement(By.xpath("//*[@id=\"app\"]/div[1]/div[2]/div[2]/div/div/form/div[1]/div[2]/div[1]/div[1]/div/div/div[2]/div[1]/div[2]/input")).sendKeys(arg0);
         driver.findElement(By.xpath("//*[@id=\"app\"]/div[1]/div[2]/div[2]/div/div/form/div[1]/div[2]/div[1]/div[1]/div/div/div[2]/div[2]/div[2]/input")).sendKeys(arg1);
         driver.findElement(By.xpath("//*[@id=\"app\"]/div[1]/div[2]/div[2]/div/div/form/div[1]/div[2]/div[1]/div[1]/div/div/div[2]/div[3]/div[2]/input")).sendKeys(arg2);
-        driver.findElement(By.xpath("//*[@id='app']/div/div/div/div/div/form/div/div/div/div/div/div/div/input")).clear();
-        driver.findElement(By.xpath("//*[@id=\"app\"]/div[1]/div[2]/div[2]/div/div/form/div[1]/div[2]/div[1]/div[2]/div/div/div[2]/input")).sendKeys(arg3);
-        driver.findElement(By.xpath("//*[@id=\"app\"]/div[1]/div[2]/div[2]/div/div/form/div[1]/div[2]/div[3]/div/div[1]/div/div[2]/input")).sendKeys(arg4);
-        driver.findElement(By.xpath("//*[@id=\"app\"]/div[1]/div[2]/div[2]/div/div/form/div[1]/div[2]/div[4]/div/div[1]/div/div[2]/input")).sendKeys(arg5);
-        driver.findElement(By.xpath("//*[@id=\"app\"]/div[1]/div[2]/div[2]/div/div/form/div[1]/div[2]/div[4]/div/div[2]/div/div[2]/input")).sendKeys(arg6);
+
+        idusuario = driver.findElement(By.xpath("//*[@id=\"app\"]/div/div/div/div/div/form/div/div/div/div/div/div/div/input")).getAttribute("value");
+        System.out.println("El número extraído es: " + idusuario);
+
+        driver.findElement(By.xpath("//*[@id=\"app\"]/div[1]/div[2]/div[2]/div/div/form/div[1]/div[2]/div[3]/div/div[1]/div/div[2]/input")).sendKeys(arg3);
+        driver.findElement(By.xpath("//*[@id=\"app\"]/div[1]/div[2]/div[2]/div/div/form/div[1]/div[2]/div[4]/div/div[1]/div/div[2]/input")).sendKeys(arg4);
+        driver.findElement(By.xpath("//*[@id=\"app\"]/div[1]/div[2]/div[2]/div/div/form/div[1]/div[2]/div[4]/div/div[2]/div/div[2]/input")).sendKeys(arg5);
 
         driver.findElement(By.cssSelector("button.oxd-button.oxd-button--medium.oxd-button--secondary.orangehrm-left-space")).click();
-        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-        driver.findElement(By.xpath("//*[@id=\"app\"]/div[1]/div[1]/aside/nav/div[2]/ul/li[2]/a")).click();
 
-
-    }
-
-
-    public static void busquedausuarioregistrado(String arg0) {
-        driver.findElement(By.xpath("//*[@id=\"app\"]/div[1]/div[2]/div[2]/div/div[1]/div[2]/form/div[1]/div/div[2]/div/div[2]/input")).sendKeys(arg0);
-
-        driver.findElement(By.xpath("//*[@id=\"app\"]/div[1]/div[2]/div[2]/div/div[1]/div[2]/form/div[2]/button[2]")).click();
-
-
-    }
-
-    public static void validacionidapellido(String arg0, String arg1) {
-
-        if (driver.findElement(By.xpath("//*[@id=\"app\"]/div[1]/div[2]/div[2]/div/div[2]/div[3]/div/div[2]/div/div/div[2]")).getText().equals(arg0)) {
-            System.out.println("El id coincide con " + arg0);
-        } else {
-            System.out.println("El id no coincide. Se esperaba: " + arg0 + ", pero se encontró: " + driver.findElement(By.xpath("//*[@id=\"app\"]/div[1]/div[2]/div[2]/div/div[2]/div[3]/div/div[2]/div/div/div[2]")).getText());
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
 
-        if (driver.findElement(By.xpath("//*[@id=\"app\"]/div[1]/div[2]/div[2]/div/div[2]/div[3]/div/div[2]/div/div/div[4]")).getText().equals(arg1)) {
-            System.out.println("El apellido coincide con " + arg1);
+
+
+
+
+    }
+
+
+    public static void busquedausuarioregistrado() {
+        driver.findElement(By.xpath("//*[@id=\"app\"]/div[1]/div[1]/aside/nav/div[2]/ul/li[2]/a")).click();
+        driver.findElement(By.xpath("//*[@id=\"app\"]/div/div/div/div/div/div/form/div/div/div/div/div/input")).sendKeys(idusuario);
+        driver.findElement(By.xpath("//*[@id=\"app\"]/div[1]/div[2]/div[2]/div/div[1]/div[2]/form/div[2]/button[2]")).click();
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void validacionidapellido(String arg0, String arg1, String arg2) {
+
+        if (driver.findElement(By.xpath("//*[@id=\"app\"]/div[1]/div[2]/div[2]/div/div[2]/div[3]/div/div[2]/div/div/div[3]")).getText().equals(arg0 + " " + arg1)) {
+            System.out.println("El nombre coincide con " + arg0 + " " + arg1 + ". Valor extraído: " + driver.findElement(By.xpath("//*[@id=\"app\"]/div[1]/div[2]/div[2]/div/div[2]/div[3]/div/div[2]/div/div/div[3]")).getText());
         } else {
-            System.out.println("El apellido no coincide. Se esperaba: " + arg1 + ", pero se encontró: " + driver.findElement(By.xpath("//*[@id=\"app\"]/div[1]/div[2]/div[2]/div/div[2]/div[3]/div/div[2]/div/div/div[4]")).getText());
+            System.out.println("El nombre no coincide. Se esperaba: " + arg0 + " " + arg1 + ", pero se encontró: " + driver.findElement(By.xpath("//*[@id=\"app\"]/div[1]/div[2]/div[2]/div/div[2]/div[3]/div/div[2]/div/div/div[3]/div")).getText());
+        }
+
+
+        if (driver.findElement(By.xpath("//*[@id=\"app\"]/div[1]/div[2]/div[2]/div/div[2]/div[3]/div/div[2]/div/div/div[4]")).getText().equals(arg2)) {
+            System.out.println("El apellido coincide con " + arg2 + ". Valor extraído: " + driver.findElement(By.xpath("//*[@id=\"app\"]/div[1]/div[2]/div[2]/div/div[2]/div[3]/div/div[2]/div/div/div[4]")).getText());
+        } else {
+            System.out.println("El apellido no coincide. Se esperaba: " + arg2 + ", pero se encontró: " + driver.findElement(By.xpath("//*[@id=\"app\"]/div[1]/div[2]/div[2]/div/div[2]/div[3]/div/div[2]/div/div/div[4]")).getText());
         }
 
         driver.quit();
     }
+
+
 }

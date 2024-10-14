@@ -26,23 +26,22 @@ public class VregistroStepDefs {
     public void accedoALaSecciónDeAgregarUsuariosConTodoYDetalle() {
         VregistroSteps.seccionregistro();
     }
-
-
-
-
-    @And("me registro correctamente con los siguientes datos {string} {string}  {string} {string} {string} {string} {string}")
-    public void meRegistroCorrectamenteConLosSiguientesDatos(String arg0, String arg1, String arg2, String arg3, String arg4, String arg5, String arg6) {
-        VregistroSteps.registrousuario(arg0, arg1, arg2, arg3, arg4, arg5, arg6);
+    @And("me registro correctamente con los siguientes datos {string} {string}  {string}  {string} {string} {string}")
+    public void meRegistroCorrectamenteConLosSiguientesDatos(String arg0, String arg1, String arg2, String arg3, String arg4, String arg5) {
+        VregistroSteps.registrousuario(arg0,arg1,arg2,arg3,arg4,arg5);
     }
 
-    @Then("ingreso a la sección de los usuarios registrados buscando por mi {string}")
-    public void ingresoALaSecciónDeLosUsuariosRegistradosBuscandoPorMi(String arg0) {
-        VregistroSteps.busquedausuarioregistrado(arg0);
+    @Then("ingreso a la sección de los usuarios registrados buscando por mi id")
+    public void ingresoALaSecciónDeLosUsuariosRegistradosBuscandoPorMiId() {
+        VregistroSteps.busquedausuarioregistrado();
     }
 
-    @And("verifico que el usuario que he registrado se visualize viendo mi  {string}  {string}")
-    public void verificoQueElUsuarioQueHeRegistradoSeVisualizeViendoMi(String arg0, String arg1) {
-        VregistroSteps.validacionidapellido(arg0,arg1);
-    }
 
+
+
+
+    @And("verifico que el usuario que he registrado se visualize viendo mi  {string} {string} {string}")
+    public void verificoQueElUsuarioQueHeRegistradoSeVisualizeViendoMi(String arg0, String arg1, String arg2) {
+        VregistroSteps.validacionidapellido(arg0,arg1,arg2);
+    }
 }
